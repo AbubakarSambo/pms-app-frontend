@@ -1,0 +1,21 @@
+.right-pane {
+    display: none;
+  }
+  
+  @media (min-width: 768px) {
+    .right-pane {
+      display: flex;
+    }
+  }
+  
+
+  .left-pane {
+    width: 100%;
+  }
+  
+  @media (min-width: 768px) {
+    .left-pane {
+      width: 40%;
+    }
+  }
+  

@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthRoutes from "./routes/Authroutes";
+import PrivateRoutes from "./routes/PrivateRoutes";
+import { ThemeProvider, defaultTheme, mergeTheme } from "evergreen-ui";
 
-function App() {
+const theme = mergeTheme(defaultTheme, {
+  components: {
+    Button: {
+      baseStyle: {
+        color: "white",
+        backgroundColor: "#7e6362",
+      },
+    },
+    Link: {
+      baseStyle: {
+        color: defaultTheme.colors.gray800,
+      },
+    },
+  },
+});
+
+const App = () => {
+  const isAuthenticated = false; // Replace with actual authentication logic
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider value={theme}>
+      <BrowserRouter>
+        <Routes>
+          {isAuthenticated ? (
+            <Route path="/*" element={<PrivateRoutes />} />
+          ) : (
+            <Route path="/*" element={<AuthRoutes />} />
+          )}
+          {/* Redirect all other paths */}
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
