@@ -11,12 +11,42 @@ import {
   PhoneIcon,
   PersonIcon,
 } from "evergreen-ui";
+import { signUp } from "supertokens-web-js/recipe/emailpassword";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
 import { ElementType } from "react";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 export const Summary = () => {
   const navigate = useNavigate();
+  const { authData } = useAuthContext();
+  const handleSignup = async () => {
+    const response = await signUp({
+      formFields: [
+        {
+          id: "email",
+          value: authData.email,
+        },
+        {
+          id: "password",
+          value: authData.password,
+        },
+        {
+          id: "firstName",
+          value: authData.firstName,
+        },
+        {
+          id: "lastName",
+          value: authData.lastName,
+        },
+        {
+          id: "phone",
+          value: authData.phone,
+        },
+      ],
+    });
+    console.log({ response });
+  };
   return (
     <Pane>
       <Button onClick={() => navigate(-1)} iconBefore={ChevronLeftIcon}>
@@ -40,16 +70,29 @@ export const Summary = () => {
             border="default"
             borderRadius={8}
           >
-            <SummaryItem label="FULL NAME" icon={UserIcon} />
-            <SummaryItem label="EMAIL ADDRESS" icon={InboxIcon} />
-            <SummaryItem label="PHONE NUMBER" icon={PhoneIcon} />
-            <SummaryItem last label="ROLE" icon={PersonIcon} />
+            <SummaryItem
+              label="FULL NAME"
+              icon={UserIcon}
+              value={`${authData.firstName} ${authData.lastName}`}
+            />
+            <SummaryItem
+              label="EMAIL ADDRESS"
+              icon={InboxIcon}
+              value={authData.email}
+            />
+            <SummaryItem
+              label="PHONE NUMBER"
+              icon={PhoneIcon}
+              value={authData.phone}
+            />
+            <SummaryItem last label="ROLE" icon={PersonIcon} value="" />
           </Pane>
           <Button
             width="300px"
             marginBottom={12}
             appearance="none"
             marginTop={8}
+            onClick={handleSignup}
           >
             Finish
           </Button>
@@ -63,12 +106,13 @@ const SummaryItem = ({
   last = false,
   label,
   icon,
+  value,
 }: {
   label: string;
   last?: boolean;
   icon: ElementType;
+  value: string;
 }) => {
-  console.log({ last });
   return (
     <Pane
       display="flex"
@@ -87,7 +131,7 @@ const SummaryItem = ({
         paddingY={4}
       >
         <Heading size={100}>{label}</Heading>
-        <Text size={300}>John Doe</Text>
+        <Text size={300}>{value}</Text>
       </Pane>
       <Icon icon={EditIcon} color={last ? "disabled" : ""} />
     </Pane>

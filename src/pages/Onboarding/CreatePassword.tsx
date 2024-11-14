@@ -11,8 +11,10 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 export const CreatePassword = () => {
+  const { authData, setAuthData } = useAuthContext();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
@@ -20,7 +22,17 @@ export const CreatePassword = () => {
   const hasUppercase = /[A-Z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
   const hasMinLength = password.length >= 8;
+  const passwordsMatch = password === confirmPassword;
 
+  const handlePasswordPageNext = () => {
+    if (passwordsMatch) {
+      setAuthData({
+        ...authData,
+        password,
+      });
+      navigate("/onboarding/summary");
+    }
+  };
   return (
     <Pane>
       <Button onClick={() => navigate(-1)} iconBefore={ChevronLeftIcon}>
@@ -47,11 +59,15 @@ export const CreatePassword = () => {
         <TextInputField
           label="Create a Password"
           placeholder="*****"
+          type="password"
           width={300}
+          onChange={(e: any) => setPassword(e.target.value)}
         />
 
         <TextInputField
           label="Confirm  Password"
+          onChange={(e: any) => setConfirmPassword(e.target.value)}
+          type="password"
           placeholder="*****"
           width={300}
         />
@@ -109,6 +125,7 @@ export const CreatePassword = () => {
             display="flex"
             alignItems="center"
             color={hasMinLength ? "green" : "muted"}
+            marginBottom={6}
           >
             {hasMinLength ? (
               <TickCircleIcon size={12} color="green" marginRight={4} />
@@ -116,6 +133,19 @@ export const CreatePassword = () => {
               <CrossIcon color="red" size={12} marginRight={4} />
             )}
             At least 8 characters
+          </Text>
+          <Text
+            size={300}
+            display="flex"
+            alignItems="center"
+            color={passwordsMatch ? "green" : "muted"}
+          >
+            {passwordsMatch ? (
+              <TickCircleIcon size={12} color="green" marginRight={4} />
+            ) : (
+              <CrossIcon color="red" size={12} marginRight={4} />
+            )}
+            Passwords match
           </Text>
         </Pane>
         <Button
@@ -129,6 +159,7 @@ export const CreatePassword = () => {
             !hasMinLength ||
             password !== confirmPassword
           }
+          onClick={handlePasswordPageNext}
         >
           Next
         </Button>
