@@ -43,7 +43,7 @@ const Login = () => {
         >
           <Checkbox label="Keep me signed in" />
           <Pane alignItems="center" display="flex">
-            <Link textDecoration="underline" href="/reset-password">
+            <Link textDecoration="underline" href="/auth/reset-password">
               Forgot password?
             </Link>
           </Pane>

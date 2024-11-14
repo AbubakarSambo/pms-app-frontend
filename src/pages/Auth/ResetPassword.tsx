@@ -38,7 +38,7 @@ const Login = () => {
           <Pane display="flex" justifyContent="center" marginTop={10}>
             <Text color="muted" marginBottom={24} display="block">
               Change your mind?
-              <Link textDecoration="underline" href="/login">
+              <Link textDecoration="underline" href="/auth/login">
                 back to sign in
               </Link>
             </Text>

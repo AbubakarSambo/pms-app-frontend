@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthRoutes from "./routes/Authroutes";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import { ThemeProvider, defaultTheme, mergeTheme } from "evergreen-ui";
+import OnboardingRoutes from "./routes/OnboardingRoutes";
 
 const theme = mergeTheme(defaultTheme, {
   components: {
@@ -28,7 +29,10 @@ const App = () => {
           {isAuthenticated ? (
             <Route path="/*" element={<PrivateRoutes />} />
           ) : (
-            <Route path="/*" element={<AuthRoutes />} />
+            <>
+              <Route path="/auth/*" element={<AuthRoutes />} />
+              <Route path="/onboarding/*" element={<OnboardingRoutes />} />
+            </>
           )}
           {/* Redirect all other paths */}
         </Routes>

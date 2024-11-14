@@ -1,0 +1,12 @@
+.top-pane {
+    border-bottom: 1px solid rgb(230, 230, 230);
+  }
+  
+ 
+
+  @media (max-width: 700px) {
+    .number-stepper {
+      display: none
+    }
+  }
+  
