@@ -6,8 +6,54 @@ import {
   Text,
   Checkbox,
   Link,
+  Spinner,
 } from "evergreen-ui";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signIn } from "supertokens-web-js/recipe/emailpassword";
+import { useAuthContext } from "../../hooks/useAuthContext";
+
 const Login = () => {
+  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+  const { authData, setAuthData } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setUserInfo({
+      ...userInfo,
+      [name]: value,
+    });
+  };
+
+  const handleSignIn = async () => {
+    setIsLoading(true);
+    const response = await signIn({
+      formFields: [
+        {
+          id: "email",
+          value: userInfo.email,
+        },
+        {
+          id: "password",
+          value: userInfo.password,
+        },
+      ],
+    });
+    if (response.status === "OK") {
+      setAuthData({
+        ...authData,
+        isAuthenticated: true,
+      });
+      setIsLoading(false);
+      navigate("/dashboard");
+    }
+  };
   return (
     <Pane
       display="flex"
@@ -17,7 +63,7 @@ const Login = () => {
     >
       <Pane width={400} padding={24}>
         <Pane display="flex" flexDirection="column" alignItems="center">
-          <Heading size={700} marginBottom={16}>
+          <Heading size={600} marginBottom={16}>
             Welcome Back
           </Heading>
           <Text color="muted" marginBottom={24} display="block">
@@ -28,12 +74,18 @@ const Login = () => {
           label="Email Address"
           placeholder="hello@example.com"
           marginBottom={16}
+          value={userInfo.email}
+          onChange={handleChange}
+          name="email"
         />
         <TextInputField
           label="Password"
           type="password"
           placeholder="••••••••"
           marginBottom={16}
+          value={userInfo.password}
+          onChange={handleChange}
+          name="password"
         />
         <Pane
           display="flex"
@@ -48,8 +100,13 @@ const Login = () => {
             </Link>
           </Pane>
         </Pane>
-        <Button appearance="none" width="100%" height={40}>
-          Sign In
+        <Button
+          onClick={handleSignIn}
+          appearance="none"
+          width="100%"
+          height={40}
+        >
+          {isLoading ? <Spinner color="white" size={32} /> : "Sign In"}
         </Button>
       </Pane>
     </Pane>

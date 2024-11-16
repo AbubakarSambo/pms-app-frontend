@@ -45,7 +45,9 @@ export const Summary = () => {
         },
       ],
     });
-    console.log({ response });
+    if (response.status === "OK") {
+      navigate("/auth/login");
+    }
   };
   return (
     <Pane>

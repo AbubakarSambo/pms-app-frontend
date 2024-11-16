@@ -1,4 +1,4 @@
-import { ReactElement, createContext, useState } from "react";
+import { createContext, useState } from "react";
 
 export interface AuthContextData {
   authData: Record<string, string>;

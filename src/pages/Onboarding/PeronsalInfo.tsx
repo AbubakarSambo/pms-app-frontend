@@ -5,9 +5,7 @@ import {
   Heading,
   TextInputField,
 } from "evergreen-ui";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext, AuthContextData } from "../../context/Provider";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 export const PersonalInfo = () => {
