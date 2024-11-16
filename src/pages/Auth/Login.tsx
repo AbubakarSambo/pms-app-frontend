@@ -106,7 +106,7 @@ const Login = () => {
           width="100%"
           height={40}
         >
-          {isLoading ? <Spinner color="white" size={32} /> : "Sign In"}
+          {isLoading ? <Spinner color="gray75" size={32} /> : "Sign In"}
         </Button>
       </Pane>
     </Pane>

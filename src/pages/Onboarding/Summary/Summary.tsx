@@ -10,17 +10,20 @@ import {
   InboxIcon,
   PhoneIcon,
   PersonIcon,
+  Spinner,
 } from "evergreen-ui";
 import { signUp } from "supertokens-web-js/recipe/emailpassword";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
-import { ElementType } from "react";
+import { ElementType, useState } from "react";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 
 export const Summary = () => {
   const navigate = useNavigate();
-  const { authData } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const { authData, setAuthData } = useAuthContext();
   const handleSignup = async () => {
+    setIsLoading(true);
     const response = await signUp({
       formFields: [
         {
@@ -46,7 +49,12 @@ export const Summary = () => {
       ],
     });
     if (response.status === "OK") {
-      navigate("/auth/login");
+      setAuthData({
+        ...authData,
+        isAuthenticated: true,
+      });
+      setIsLoading(false);
+      navigate("/dashboard");
     }
   };
   return (
@@ -96,7 +104,7 @@ export const Summary = () => {
             marginTop={8}
             onClick={handleSignup}
           >
-            Finish
+            {isLoading ? <Spinner color="white" size={32} /> : "Finish"}
           </Button>
         </Pane>
       </Pane>
