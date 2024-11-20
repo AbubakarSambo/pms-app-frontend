@@ -23,10 +23,15 @@ const NumberCircle = () => {
         number={2}
       />
       <StepItem
+        active={pathname === "/onboarding/organization"}
+        label="Organization"
+        number={3}
+      />
+      <StepItem
         active={pathname === "/onboarding/summary"}
         label="Summary"
         isLast
-        number={3}
+        number={4}
       />
     </Pane>
   );

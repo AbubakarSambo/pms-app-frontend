@@ -11,6 +11,7 @@ import {
   PhoneIcon,
   PersonIcon,
   Spinner,
+  DiagramTreeIcon,
 } from "evergreen-ui";
 import { signUp } from "supertokens-web-js/recipe/emailpassword";
 import { useNavigate } from "react-router-dom";
@@ -45,6 +46,14 @@ export const Summary = () => {
         {
           id: "phone",
           value: authData.phone,
+        },
+        {
+          id: "organization",
+          value: authData.organization,
+        },
+        {
+          id: "role",
+          value: "SuperAdmin",
         },
       ],
     });
@@ -94,6 +103,11 @@ export const Summary = () => {
               label="PHONE NUMBER"
               icon={PhoneIcon}
               value={authData.phone}
+            />
+            <SummaryItem
+              label="Organization"
+              icon={DiagramTreeIcon}
+              value={authData.organization}
             />
             <SummaryItem last label="ROLE" icon={PersonIcon} value="" />
           </Pane>

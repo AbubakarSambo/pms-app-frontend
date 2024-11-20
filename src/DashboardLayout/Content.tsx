@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Overview from "../pages/Dashboard/Overview";
+import Overview from "../pages/Dashboard/Overview/Overview";
 
 const Content = () => {
   return (

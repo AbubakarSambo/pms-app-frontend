@@ -30,7 +30,7 @@ export const CreatePassword = () => {
         ...authData,
         password,
       });
-      navigate("/onboarding/summary");
+      navigate("/onboarding/organization");
     }
   };
   return (
