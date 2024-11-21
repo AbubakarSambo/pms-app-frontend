@@ -1,14 +1,9 @@
-import React from "react";
 import { Pane } from "evergreen-ui";
 import Sidebar from "./Sidebar";
 import Content from "./Content";
 import TopNavbar from "./TopNavBar";
 
-interface DashboardLayoutProps {
-  children: React.ReactNode;
-}
-
-const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+const DashboardLayout = () => {
   return (
     <Pane display="flex">
       <Sidebar />

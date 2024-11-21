@@ -11,7 +11,13 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "supertokens-web-js/recipe/emailpassword";
+import Session from "supertokens-web-js/recipe/session";
 import { useAuthContext } from "../../hooks/useAuthContext";
+
+interface AccessTokenPayload {
+  userRoles: string[];
+  isSuperAdmin: boolean;
+}
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({ email: "", password: "" });
@@ -46,9 +52,14 @@ const Login = () => {
       ],
     });
     if (response.status === "OK") {
+      const session =
+        (await Session.getAccessTokenPayloadSecurely()) as AccessTokenPayload;
+      const roles = session.userRoles;
       setAuthData({
         ...authData,
         isAuthenticated: true,
+        roles,
+        isSuperAdmin: session.isSuperAdmin,
       });
       setIsLoading(false);
       navigate("/dashboard");

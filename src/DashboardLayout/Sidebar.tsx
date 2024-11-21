@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Pane,
   Tab,
@@ -7,7 +7,6 @@ import {
   GridViewIcon,
   TabNavigation,
   BoxIcon,
-  CreditCardIcon,
   UserIcon,
   HomeIcon,
   IconComponent,
@@ -18,11 +17,12 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import Session from "supertokens-web-js/recipe/session";
 import { useAuthContext } from "../hooks/useAuthContext";
+import routes, { Role, hasMatchingRoles } from "./routes";
 
 const tabs: { name: string; path: string; icon: IconComponent }[] = [
   { name: "Dashboard", path: "/dashboard", icon: GridViewIcon },
   { name: "Reservations", path: "/reservations", icon: BoxIcon },
-  { name: "Payments", path: "/billing", icon: CreditCardIcon },
+  { name: "Properties", path: "/properties", icon: HomeIcon },
   { name: "Staff Management", path: "/staff-management", icon: UserIcon },
   { name: "Rooms", path: "/rooms", icon: HomeIcon },
 ];
@@ -30,6 +30,8 @@ const tabs: { name: string; path: string; icon: IconComponent }[] = [
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { authData, setAuthData } = useAuthContext();
+  const userRoles = authData.roles.map((role: Role) => role.name);
+
   const navigate = useNavigate();
   const handleLogout = async () => {
     await Session.signOut();
@@ -71,29 +73,31 @@ const Sidebar = () => {
           </Pane>
         </Pane>
 
-        {tabs.map((tab) => (
-          <NavLink
-            key={tab.path}
-            to={tab.path}
-            style={({ isActive }) => ({
-              display: "flex",
-              padding: "12px 16px",
-              textDecoration: "none",
-              borderRadius: 4,
-              color: isActive ? "#7E6363" : "inherit",
-              background: isActive ? "#F5F4F4" : "transparent",
-              // fontWeight: isActive ? 600 : 400,
-              alignItems: "center",
-            })}
-          >
-            <Icon size={15} icon={tab.icon} />
-            {!isCollapsed && (
-              <Heading paddingLeft={6} size={400}>
-                {tab.name}
-              </Heading>
-            )}
-          </NavLink>
-        ))}
+        {routes
+          .filter((route) => hasMatchingRoles(route.roles, userRoles))
+          .map((tab) => (
+            <NavLink
+              key={tab.path}
+              to={tab.path}
+              style={({ isActive }) => ({
+                display: "flex",
+                padding: "12px 16px",
+                textDecoration: "none",
+                borderRadius: 4,
+                color: isActive ? "#7E6363" : "inherit",
+                background: isActive ? "#F5F4F4" : "transparent",
+                // fontWeight: isActive ? 600 : 400,
+                alignItems: "center",
+              })}
+            >
+              <Icon size={15} icon={tab.icon} />
+              {!isCollapsed && (
+                <Heading paddingLeft={6} size={400}>
+                  {tab.name}
+                </Heading>
+              )}
+            </NavLink>
+          ))}
         <Pane onClick={handleLogout} paddingX={10} marginTop="auto">
           <Icon icon={LogOutIcon} />
           {!isCollapsed && <Tab>Sign Out</Tab>}

@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthRoutes from "./routes/Authroutes";
-import PrivateRoutes from "./routes/PrivateRoutes";
 import { Spinner, ThemeProvider, defaultTheme, mergeTheme } from "evergreen-ui";
 import OnboardingRoutes from "./routes/OnboardingRoutes";
 import SuperTokens from "supertokens-web-js";
@@ -8,6 +7,7 @@ import Session from "supertokens-web-js/recipe/session";
 import EmailPassword from "supertokens-web-js/recipe/emailpassword";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "./hooks/useAuthContext";
+import DashboardLayout from "./DashboardLayout/DashboardLayout";
 
 SuperTokens.init({
   appInfo: {
@@ -41,9 +41,17 @@ const App = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const authStatus = await Session.doesSessionExist();
+      const session = authStatus
+        ? await Session.getAccessTokenPayloadSecurely()
+        : ({} as {
+            userRoles?: string[];
+          });
+
       setAuthData((prevAuthData: Record<string, string>) => ({
         ...prevAuthData,
         isAuthenticated: authStatus,
+        roles: session.userRoles,
+        isSuperAdmin: session.isSuperAdmin,
       }));
       setIsLoading(false);
     };
@@ -55,12 +63,13 @@ const App = () => {
     return <Spinner size={32} />;
   }
 
+  console.log({ authData });
   return (
     <ThemeProvider value={theme}>
       <BrowserRouter>
         <Routes>
           {authData.isAuthenticated ? (
-            <Route path="/*" element={<PrivateRoutes />} />
+            <Route path="/*" element={<DashboardLayout />} />
           ) : (
             <>
               <Route path="/auth/*" element={<AuthRoutes />} />

@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 
 export interface AuthContextData {
-  authData: Record<string, string>;
+  authData: Record<any, any>;
   setAuthData: (e: any) => void;
 }
 
