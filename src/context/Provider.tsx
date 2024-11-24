@@ -6,7 +6,9 @@ export interface AuthContextData {
 }
 
 export const AuthContext = createContext<AuthContextData>({
-  authData: {},
+  authData: {
+    roles: [],
+  },
   setAuthData: () => {},
 });
 

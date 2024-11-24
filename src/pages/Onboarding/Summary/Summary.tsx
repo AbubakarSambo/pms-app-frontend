@@ -63,7 +63,7 @@ export const Summary = () => {
         isAuthenticated: true,
       });
       setIsLoading(false);
-      navigate("/dashboard");
+      window.location.href = "/dashboard";
     }
   };
   return (

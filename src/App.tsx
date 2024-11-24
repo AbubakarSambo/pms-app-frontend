@@ -50,8 +50,8 @@ const App = () => {
       setAuthData((prevAuthData: Record<string, string>) => ({
         ...prevAuthData,
         isAuthenticated: authStatus,
-        roles: session.userRoles,
-        isSuperAdmin: session.isSuperAdmin,
+        roles: session.userRoles ?? [],
+        isSuperAdmin: session.isSuperAdmin ?? false,
       }));
       setIsLoading(false);
     };

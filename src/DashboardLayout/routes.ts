@@ -1,8 +1,11 @@
-import { GridViewIcon, HomeIcon, IconComponent } from "evergreen-ui";
+import { BookIcon, GridViewIcon, HomeIcon, IconComponent } from "evergreen-ui";
 import React from "react";
 
 const Dashboard = React.lazy(() => import("../pages/Dashboard/Dashboard"));
 const Properties = React.lazy(() => import("../pages/Properties/Properties"));
+const Reservations = React.lazy(
+  () => import("../pages/Reservations/Reservations")
+);
 
 const routes: {
   name: string;
@@ -24,6 +27,13 @@ const routes: {
     element: Properties,
     roles: ["Super Admin"],
     icon: HomeIcon,
+  },
+  {
+    path: "/reservations",
+    name: "Reservations",
+    element: Reservations,
+    roles: ["Super Admin"],
+    icon: BookIcon,
   },
 ];
 
