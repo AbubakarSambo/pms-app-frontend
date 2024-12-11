@@ -52,6 +52,7 @@ const App = () => {
         isAuthenticated: authStatus,
         roles: session.userRoles ?? [],
         isSuperAdmin: session.isSuperAdmin ?? false,
+        orgId: session.orgId,
       }));
       setIsLoading(false);
     };
@@ -63,7 +64,6 @@ const App = () => {
     return <Spinner size={32} />;
   }
 
-  console.log({ authData });
   return (
     <ThemeProvider value={theme}>
       <BrowserRouter>

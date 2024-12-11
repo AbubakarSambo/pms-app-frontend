@@ -2,45 +2,46 @@ import {
   Pane,
   Heading,
   Button,
-  IconButton,
-  ChevronRightIcon,
   Table,
   Text,
+  IconButton,
   ChevronLeftIcon,
+  ChevronRightIcon,
 } from "evergreen-ui";
 import { useEffect, useState } from "react";
-import { CreateProperty } from "./CreatePropertyModal";
-import { fetchProperties } from "../../utils/service";
+import { CreateStaff } from "./CreateStaffModal";
+import { fetchStaff } from "./service";
 
-interface IProperty {
-  name: string;
-  address: string;
+interface IStaff {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
   id: string;
 }
-const Properties = () => {
+
+const Staff = () => {
   const [isShown, setIsShown] = useState(false);
-  const [properties, setProperties] = useState<IProperty[]>([]);
+  const [staff, setStaff] = useState<IStaff[]>([]);
 
   useEffect(() => {
-    const fetchAllProperties = async () => {
-      const { data } = await fetchProperties();
-      setProperties(data);
+    const fetchAllStaff = async () => {
+      const { data } = await fetchStaff();
+      setStaff(data);
     };
-    fetchAllProperties();
+    fetchAllStaff();
   }, []);
   const handleCreateNewProperty = () => {
     setIsShown(true);
   };
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 7;
-  const totalPages = Math.ceil(properties.length / rowsPerPage);
-  const paginatedData = properties.slice(
+  const totalPages = Math.ceil(staff.length / rowsPerPage);
+  const paginatedData = staff.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
-
   const handlePageChange = (direction: string) => {
     if (direction === "next" && currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -51,17 +52,15 @@ const Properties = () => {
   return (
     <>
       <Pane padding={16}>
-        <Heading size={700} marginBottom={24}>
-          Properties
-        </Heading>
         <Pane
           display="flex"
-          justifyContent="flex-end"
+          justifyContent="space-between"
           alignItems="center"
           marginBottom={16}
         >
+          <Heading size={700}>Staff</Heading>
           <Button appearance="none" onClick={handleCreateNewProperty}>
-            + New Property
+            + New Staff
           </Button>
         </Pane>
       </Pane>
@@ -69,14 +68,16 @@ const Properties = () => {
         <Table>
           <Table.Head>
             <Table.TextHeaderCell>Name</Table.TextHeaderCell>
-            <Table.TextHeaderCell>Address</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Email</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Phone</Table.TextHeaderCell>
           </Table.Head>
           <Table.Body>
             {paginatedData.length > 0 &&
-              paginatedData.map((property) => (
-                <Table.Row key={property.id}>
-                  <Table.TextCell>{property.name}</Table.TextCell>
-                  <Table.TextCell>{property.address}</Table.TextCell>
+              paginatedData.map((staff) => (
+                <Table.Row key={staff.id}>
+                  <Table.TextCell>{`${staff.firstName} ${staff.lastName}`}</Table.TextCell>
+                  <Table.TextCell>{staff.email}</Table.TextCell>
+                  <Table.TextCell>{staff.phone}</Table.TextCell>
                 </Table.Row>
               ))}
           </Table.Body>
@@ -105,9 +106,9 @@ const Properties = () => {
           </Pane>
         </Pane>
       </Pane>
-      <CreateProperty isShown={isShown} setIsShown={setIsShown} />
+      <CreateStaff isShown={isShown} setIsShown={setIsShown} />
     </>
   );
 };
 
-export default Properties;
+export default Staff;

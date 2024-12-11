@@ -4,12 +4,7 @@ import {
   Tab,
   Heading,
   Icon,
-  GridViewIcon,
   TabNavigation,
-  BoxIcon,
-  UserIcon,
-  HomeIcon,
-  IconComponent,
   IconButton,
   MenuIcon,
   LogOutIcon,
@@ -18,14 +13,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Session from "supertokens-web-js/recipe/session";
 import { useAuthContext } from "../hooks/useAuthContext";
 import routes, { Role, hasMatchingRoles } from "./routes";
-
-const tabs: { name: string; path: string; icon: IconComponent }[] = [
-  { name: "Dashboard", path: "/dashboard", icon: GridViewIcon },
-  { name: "Reservations", path: "/reservations", icon: BoxIcon },
-  { name: "Properties", path: "/properties", icon: HomeIcon },
-  { name: "Staff Management", path: "/staff-management", icon: UserIcon },
-  { name: "Rooms", path: "/rooms", icon: HomeIcon },
-];
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);

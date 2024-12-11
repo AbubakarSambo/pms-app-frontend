@@ -14,7 +14,6 @@ const Content = () => {
         {routes
           .filter((route) => hasMatchingRoles(route.roles, userRoles))
           .map((route, idx) => {
-            console.log({ route });
             return (
               route.element && (
                 <Route

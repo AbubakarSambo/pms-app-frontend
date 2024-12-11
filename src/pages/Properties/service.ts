@@ -1,8 +1,15 @@
 import axiosInstance from "../../api/axiosInstance";
+import { ICreatePropertyModal } from "./CreatePropertyModal";
 
-export const test = async () => {
+export const createPropertyApi = async (
+  data: ICreatePropertyModal,
+  organizationId: string
+) => {
   try {
-    const response = await axiosInstance.get("/test");
+    const response = await axiosInstance.post("/properties", {
+      ...data,
+      organizationId,
+    });
     return response.data;
   } catch (error) {
     throw error;
