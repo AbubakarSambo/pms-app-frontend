@@ -1,6 +1,15 @@
 import { Pane, Heading, Avatar, SelectMenu, Button } from "evergreen-ui";
 
-const TopNavbar = () => {
+const TopNavbar = ({ properties, activeProperty, setActiveProperty }: any) => {
+  const handleSetActiveProperties = (e: any) => {
+    // check the properties Array for the selected property using the value to match the id in that array
+    const selectedProperty = properties.find(
+      (property: any) => property.id === e.value
+    );
+
+    setActiveProperty(selectedProperty);
+  };
+
   return (
     <Pane
       height={64}
@@ -15,13 +24,15 @@ const TopNavbar = () => {
       <Pane display="flex" alignItems="center">
         <SelectMenu
           title="Select Property"
-          options={[
-            { label: "Property 1", value: "property1" },
-            { label: "Property 2", value: "property2" },
-          ]}
-          selected="property1"
+          options={properties.map((property: any) => ({
+            label: property.name,
+            value: property.id,
+          }))}
+          selected={activeProperty.value}
+          onSelect={handleSetActiveProperties}
+          hasFilter={false}
         >
-          <Button>Yellow Door (Property 1)</Button>
+          <Button>{activeProperty.name}</Button>
         </SelectMenu>
         <Avatar name="Sophia Williams" marginLeft={16} />
       </Pane>

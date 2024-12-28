@@ -1,65 +1,82 @@
-import React from "react";
-import { Table, Pane, Badge } from "evergreen-ui";
+import React, { useEffect } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction"; // for drag and drop
+import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
+import { useAppContext } from "../../hooks/useAppContext";
+import { fetchRooms } from "./service";
 
-const HotelRoomAvailability = () => {
-  // Mock data for room availability
-  const data = [
+const Reservations = () => {
+  const { activeProperty } = useAppContext();
+  const [rooms, setRooms] = React.useState([]);
+
+  useEffect(() => {
+    const fetchAllRooms = async (propertyId: string) => {
+      const { data } = await fetchRooms(propertyId);
+      setRooms(data.map((room: any) => ({ id: room.id, title: room.name })));
+    };
+    fetchAllRooms(activeProperty.id);
+  }, [activeProperty.id]);
+
+  const events = [
     {
-      date: "01/12/2024",
-      rooms: {
-        Ruby: "Victory Obot",
-        Jade: "Vacant",
-        Amber: "Ejiro Okene",
-        Sky: "Vacant",
-      },
+      title: "Justin John",
+      start: "2024-12-24",
+      end: "2024-12-26",
+      resourceId: "101",
+      color: "#28a745",
     },
     {
-      date: "02/12/2024",
-      rooms: {
-        Ruby: "Victory Obot",
-        Jade: "Vacant",
-        Amber: "Ejiro Okene",
-        Sky: "Vacant",
-      },
+      title: "Bilkisu Abdulkareem",
+      start: "2024-12-19",
+      end: "2024-12-29",
+      resourceId: "104",
+      color: "#dc3545",
     },
-    // Add more data here...
+    // Add more events
   ];
 
-  const roomNames = ["Ruby", "Jade", "Amber", "Sky"]; // Add all room names here
+  // const resources = [
+  //   { id: "101", title: "Room 101" },
+  //   { id: "102", title: "Room 102" },
+  //   { id: "103", title: "Room 103" },
+  //   { id: "104", title: "Room 104" },
+  //   // Add more rooms
+  // ];
 
   return (
-    <Pane padding={16}>
-      <Table>
-        {/* Header */}
-        <Table.Head>
-          <Table.TextHeaderCell width={150}>Date</Table.TextHeaderCell>
-          {roomNames.map((room) => (
-            <Table.TextHeaderCell key={room} flexBasis={200}>
-              {room}
-            </Table.TextHeaderCell>
-          ))}
-        </Table.Head>
-
-        {/* Body */}
-        <Table.Body>
-          {data.map((row: { date: string; rooms: Record<string, string> }) => (
-            <Table.Row key={row.date}>
-              <Table.TextCell width={150}>{row.date}</Table.TextCell>
-              {roomNames.map((room) => (
-                <Table.TextCell key={room} flexBasis={200}>
-                  {row.rooms[room] === "Vacant" ? (
-                    <Badge color="red">Vacant</Badge>
-                  ) : (
-                    <Badge color="green">{row.rooms[room]}</Badge>
-                  )}
-                </Table.TextCell>
-              ))}
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </Pane>
+    // <Pane padding={24}>
+    <FullCalendar
+      plugins={[
+        dayGridPlugin,
+        timeGridPlugin,
+        interactionPlugin,
+        resourceTimelinePlugin,
+      ]}
+      initialView="resourceTimelineWeek"
+      headerToolbar={{
+        left: "prev,next",
+        center: "",
+        right: "",
+      }}
+      slotLabelFormat={{
+        weekday: "short",
+        day: "numeric",
+      }}
+      schedulerLicenseKey="GPL-My-Project-Is-Open-Source"
+      resources={rooms}
+      events={events}
+      editable={true} // Allows drag-and-drop
+      eventResizableFromStart={true} // Allows resizing from the start
+      resourceAreaHeaderContent="Rooms"
+      resourceAreaWidth="150px"
+      slotMinWidth={50}
+      slotDuration="24:00:00" // Sets slots to one day
+      height="100%"
+    />
+    // </Pane>
   );
 };
 
-export default HotelRoomAvailability;
+export default Reservations;
