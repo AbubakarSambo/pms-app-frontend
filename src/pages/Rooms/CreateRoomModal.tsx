@@ -14,7 +14,7 @@ export interface ICreateRoomModal {
   capacity: number;
 }
 
-export const CreateProperty = ({ isShown, setIsShown }: ICreateRoom) => {
+export const CreateRoom = ({ isShown, setIsShown }: ICreateRoom) => {
   const { activeProperty } = useAppContext();
 
   const [room, setRoom] = useState({

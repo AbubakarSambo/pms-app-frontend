@@ -9,7 +9,7 @@ import {
   ChevronLeftIcon,
 } from "evergreen-ui";
 import { useEffect, useState } from "react";
-import { CreateProperty } from "./CreateRoomModal";
+import { CreateRoom } from "./CreateRoomModal";
 import { fetchRooms } from "./service";
 import { numberWithCommas } from "../../utils/functions";
 import { useAppContext } from "../../hooks/useAppContext";
@@ -111,7 +111,7 @@ const Rooms = () => {
           </Pane>
         </Pane>
       </Pane>
-      <CreateProperty isShown={isShown} setIsShown={setIsShown} />
+      <CreateRoom isShown={isShown} setIsShown={setIsShown} />
     </>
   );
 };
