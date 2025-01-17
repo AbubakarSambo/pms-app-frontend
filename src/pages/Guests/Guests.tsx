@@ -32,10 +32,9 @@ const Guests = () => {
   useEffect(() => {
     const fetchAllGuests = async (orgId: string) => {
       const { data } = await fetchGuests(orgId);
-      console.log({ data });
       setGuests(data);
     };
-    fetchAllGuests(authData.orgId);
+    authData.orgId && fetchAllGuests(authData.orgId);
   }, [activeProperty.id, authData.orgId]);
 
   const [currentPage, setCurrentPage] = useState(1);

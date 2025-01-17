@@ -14,11 +14,12 @@ import { fetchRooms } from "./service";
 import { numberWithCommas } from "../../utils/functions";
 import { useAppContext } from "../../hooks/useAppContext";
 
-interface IRoom {
+export interface IRoom {
   name: string;
   pricePerNight: string;
   id: string;
   capacity: number;
+  status: string;
 }
 const Rooms = () => {
   const { activeProperty } = useAppContext();

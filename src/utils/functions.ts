@@ -16,3 +16,25 @@ export const parseUrl = (url: string, params: any) => {
   });
   return newUrl;
 };
+
+export const calculateNights = (checkIn: string, checkOut: string): number => {
+  // Parse the dates as Date objects
+  const checkInDate: Date = new Date(checkIn);
+  const checkOutDate: Date = new Date(checkOut);
+
+  // Ensure both variables are Date objects
+  if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
+    throw new Error("Invalid date format. Please provide valid dates.");
+  }
+
+  // Calculate the difference in milliseconds
+  const differenceInMilliseconds: number =
+    checkOutDate.getTime() - checkInDate.getTime();
+
+  // Convert milliseconds to days
+  const numberOfNights: number =
+    differenceInMilliseconds / (1000 * 60 * 60 * 24);
+
+  // Ensure the result is a whole number
+  return Math.floor(numberOfNights);
+};
