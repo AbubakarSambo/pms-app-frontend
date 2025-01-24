@@ -42,7 +42,7 @@ export const CreateRoom = ({ isShown, setIsShown }: ICreateRoom) => {
   };
 
   const createRoom = async () => {
-    room.propertyId = activeProperty.id;
+    room.propertyId = activeProperty?.id;
     room.capacity = parseInt(room.capacity.toString());
     await createRoomApi(room);
     handleClose();

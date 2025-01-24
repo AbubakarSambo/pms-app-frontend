@@ -24,7 +24,7 @@ export const RoomsTab = ({
       const { data } = await fetchRooms(propertyId);
       setRooms(data);
     };
-    fetchAllRooms(activeProperty.id);
+    fetchAllRooms(activeProperty?.id);
   }, [activeProperty?.id]);
 
   const handleRoomClick = (roomNumber: any) => {

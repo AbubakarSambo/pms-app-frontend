@@ -42,14 +42,6 @@ export const CreateReservationModal = ({
   );
   const [selectedGuest, setSelectedGuest] = useState<string | null>(null);
 
-  // useEffect(() => {
-  //   const fetchAllRooms = async (propertyId: string) => {
-  //     const { data } = await fetchRooms(propertyId);
-  //     setRooms(data);
-  //   };
-  //   fetchAllRooms(activeProperty.id);
-  // }, [activeProperty.id]);
-
   console.log({ selectedRoom });
   const handleNextClick = () => {
     setActiveTab(activeTab + 1);

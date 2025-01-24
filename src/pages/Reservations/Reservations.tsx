@@ -20,7 +20,7 @@ const Reservations = () => {
       const { data } = await fetchRooms(propertyId);
       setRooms(data.map((room: any) => ({ id: room.id, title: room.name })));
     };
-    activeProperty.id && fetchAllRooms(activeProperty.id);
+    activeProperty?.id && fetchAllRooms(activeProperty.id);
   }, [activeProperty?.id]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Reservations = () => {
         }))
       );
     };
-    activeProperty.id && fetchAllReservations(activeProperty.id);
+    activeProperty?.id && fetchAllReservations(activeProperty.id);
   }, [activeProperty?.id]);
 
   const handleCreateNewReservation = () => {
