@@ -56,7 +56,7 @@ const App = () => {
       }));
       setIsLoading(false);
     };
-
+    console.log("checkAuth");
     checkAuth();
   }, [setAuthData]);
 

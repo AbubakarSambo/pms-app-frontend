@@ -4,9 +4,6 @@ import {
   Dialog,
   Heading,
   Button,
-  Badge,
-  Text,
-  Tooltip,
   //   Grid,
 } from "evergreen-ui";
 import Step from "../../components/Step";
