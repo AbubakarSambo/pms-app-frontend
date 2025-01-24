@@ -41,12 +41,13 @@ const App = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const authStatus = await Session.doesSessionExist();
+      console.log({ authStatus });
       const session = authStatus
         ? await Session.getAccessTokenPayloadSecurely()
         : ({} as {
             userRoles?: string[];
           });
-
+      console.log({ session });
       setAuthData((prevAuthData: Record<string, string>) => ({
         ...prevAuthData,
         isAuthenticated: authStatus,
