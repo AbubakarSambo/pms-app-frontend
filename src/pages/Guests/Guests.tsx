@@ -35,7 +35,7 @@ const Guests = () => {
       setGuests(data);
     };
     authData.orgId && fetchAllGuests(authData.orgId);
-  }, [activeProperty.id, authData.orgId]);
+  }, [activeProperty?.id, authData?.orgId]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 7;

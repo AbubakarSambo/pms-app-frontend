@@ -28,11 +28,11 @@ const TopNavbar = ({ properties, activeProperty, setActiveProperty }: any) => {
             label: property.name,
             value: property.id,
           }))}
-          selected={activeProperty.value}
+          selected={activeProperty?.value}
           onSelect={handleSetActiveProperties}
           hasFilter={false}
         >
-          <Button>{activeProperty.name}</Button>
+          <Button>{activeProperty?.name}</Button>
         </SelectMenu>
         <Avatar name="Sophia Williams" marginLeft={16} />
       </Pane>
