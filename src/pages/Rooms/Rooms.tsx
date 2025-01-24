@@ -32,7 +32,7 @@ const Rooms = () => {
       setRooms(data);
     };
     fetchAllRooms(activeProperty.id);
-  }, [activeProperty.id]);
+  }, [activeProperty?.id]);
   const handleCreateNewProperty = () => {
     setIsShown(true);
   };

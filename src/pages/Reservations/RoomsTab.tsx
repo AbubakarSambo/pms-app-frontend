@@ -25,7 +25,7 @@ export const RoomsTab = ({
       setRooms(data);
     };
     fetchAllRooms(activeProperty.id);
-  }, [activeProperty.id]);
+  }, [activeProperty?.id]);
 
   const handleRoomClick = (roomNumber: any) => {
     setSelectedRoom(rooms.find((g) => g.id === roomNumber));

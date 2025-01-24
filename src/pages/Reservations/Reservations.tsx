@@ -21,7 +21,7 @@ const Reservations = () => {
       setRooms(data.map((room: any) => ({ id: room.id, title: room.name })));
     };
     activeProperty.id && fetchAllRooms(activeProperty.id);
-  }, [activeProperty.id]);
+  }, [activeProperty?.id]);
 
   useEffect(() => {
     const fetchAllReservations = async (propertyId: string) => {
@@ -37,7 +37,7 @@ const Reservations = () => {
       );
     };
     activeProperty.id && fetchAllReservations(activeProperty.id);
-  }, [activeProperty.id]);
+  }, [activeProperty?.id]);
 
   const handleCreateNewReservation = () => {
     setIsShown(true);
