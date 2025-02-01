@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Pane,
   Dialog,
-  Heading,
   Button,
+  toaster,
   //   Grid,
 } from "evergreen-ui";
 import Step from "../../components/Step";
@@ -42,7 +42,6 @@ export const CreateReservationModal = ({
   );
   const [selectedGuest, setSelectedGuest] = useState<string | null>(null);
 
-  console.log({ selectedRoom });
   const handleNextClick = () => {
     setActiveTab(activeTab + 1);
   };

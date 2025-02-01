@@ -8,12 +8,15 @@ import { useAppContext } from "../../hooks/useAppContext";
 import { fetchReservations, fetchRooms } from "./service";
 import { CreateReservationModal } from "./CreateReservationModal";
 import { Button, Heading, Pane } from "evergreen-ui";
+import { EditReservationModal } from "./EditReservationModal";
 
 const Reservations = () => {
   const { activeProperty } = useAppContext();
   const [rooms, setRooms] = useState([]);
   const [reservations, setReservations] = useState([]);
   const [isShown, setIsShown] = useState(false);
+  const [isEditModalShown, setIsEditModalShown] = useState(false);
+  const [activeReservation, setActiveReservation] = useState<any>(null);
 
   useEffect(() => {
     const fetchAllRooms = async (propertyId: string) => {
@@ -28,11 +31,17 @@ const Reservations = () => {
       const data = await fetchReservations(propertyId);
       setReservations(
         data.map((reservation: any) => ({
+          id: reservation.id,
           title: `${reservation.guest.firstName} ${reservation.guest.lastName}`,
           start: new Date(reservation.checkInDate).toISOString().split("T")[0],
           end: new Date(reservation.checkOutDate).toISOString().split("T")[0],
           resourceId: reservation.room.id,
-          color: reservation.status === "checkedIn" ? "green" : "red",
+          color:
+            reservation.status === "checkedIn"
+              ? "green"
+              : reservation.status === "booked"
+              ? "blue"
+              : "red",
         }))
       );
     };
@@ -87,8 +96,17 @@ const Reservations = () => {
         slotMinWidth={50}
         slotDuration="24:00:00" // Sets slots to one day
         height="100%"
+        eventClick={(info) => {
+          setActiveReservation(info.event.id);
+          setIsEditModalShown(true);
+        }}
       />
       <CreateReservationModal isShown={isShown} setIsShown={setIsShown} />
+      <EditReservationModal
+        isShown={isEditModalShown}
+        setIsShown={setIsEditModalShown}
+        activeReservationId={activeReservation}
+      />
     </>
     // </Pane>
   );

@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { CreateProperty } from "./CreatePropertyModal";
 import { fetchProperties } from "../../utils/service";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 interface IProperty {
   name: string;
@@ -19,14 +20,15 @@ interface IProperty {
 }
 const Properties = () => {
   const [isShown, setIsShown] = useState(false);
+  const { authData } = useAuthContext();
   const [properties, setProperties] = useState<IProperty[]>([]);
 
   useEffect(() => {
-    const fetchAllProperties = async () => {
-      const { data } = await fetchProperties();
+    const fetchAllProperties = async (orgId: string) => {
+      const { data } = await fetchProperties(orgId);
       setProperties(data);
     };
-    fetchAllProperties();
+    authData?.orgId && fetchAllProperties(authData.orgId);
   }, []);
   const handleCreateNewProperty = () => {
     setIsShown(true);

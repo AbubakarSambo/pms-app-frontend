@@ -9,9 +9,9 @@ export const fetchRoles = async () => {
   }
 };
 
-export const fetchProperties = async () => {
+export const fetchProperties = async (orgId: string) => {
   try {
-    const response = await axiosInstance.get("/properties");
+    const response = await axiosInstance.get(`/properties?orgId=${orgId}`);
     return response.data;
   } catch (error) {
     throw error;

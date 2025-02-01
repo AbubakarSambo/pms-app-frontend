@@ -31,7 +31,7 @@ const Rooms = () => {
       const { data } = await fetchRooms(propertyId);
       setRooms(data);
     };
-    fetchAllRooms(activeProperty?.id);
+    activeProperty?.id && fetchAllRooms(activeProperty.id);
   }, [activeProperty?.id]);
   const handleCreateNewProperty = () => {
     setIsShown(true);

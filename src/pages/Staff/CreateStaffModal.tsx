@@ -2,6 +2,7 @@ import { Dialog, SelectField, TextInputField } from "evergreen-ui";
 import React, { useEffect, useState } from "react";
 import { createUserApi } from "./service";
 import { fetchProperties, fetchRoles } from "../../utils/service";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 interface ICreateStaffModal {
   isShown: boolean;
@@ -17,6 +18,7 @@ export interface ICreateStaff {
 }
 export const CreateStaff = ({ isShown, setIsShown }: ICreateStaffModal) => {
   const [roles, setRoles] = useState<{ id?: string; name?: string }[]>([]);
+  const { authData } = useAuthContext();
   const [properties, setProperties] = useState<
     { id?: string; name?: string }[]
   >([]);
@@ -39,25 +41,17 @@ export const CreateStaff = ({ isShown, setIsShown }: ICreateStaffModal) => {
       }
     };
 
-    const fetchAllProperties = async () => {
-      const { data } = await fetchProperties();
+    const fetchAllProperties = async (orgId: string) => {
+      const { data } = await fetchProperties(orgId);
       setProperties(data);
       if (data.length > 0) {
         // Automatically set the first property if available
         setData((prev) => ({ ...prev, propertyId: data[0].id }));
       }
     };
-    // const fetchAllRoles = async () => {
-    //   const roles = await fetchRoles();
-    //   setRoles(roles);
-    // };
-    // const fetchAllProperties = async () => {
-    //   const { data } = await fetchProperties();
-    //   setProperties(data);
-    // };
 
     fetchAllRoles();
-    fetchAllProperties();
+    authData?.orgId && fetchAllProperties(authData.orgId);
   }, []);
   const handleChange = (
     e: React.ChangeEvent<

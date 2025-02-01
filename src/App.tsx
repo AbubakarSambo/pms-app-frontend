@@ -41,7 +41,6 @@ const App = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const authStatus = await Session.doesSessionExist();
-      console.log({ authStatus });
       const session = authStatus
         ? await Session.getAccessTokenPayloadSecurely()
         : ({} as {

@@ -5,23 +5,25 @@ import TopNavbar from "./TopNavBar";
 import { useEffect } from "react";
 import { useAppContext } from "../hooks/useAppContext";
 import { fetchProperties } from "../utils/service";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const DashboardLayout = () => {
   const { properties, setProperties, setActiveProperty, activeProperty } =
     useAppContext();
-
+  const { authData } = useAuthContext();
   useEffect(() => {
-    const getAllProperties = async () => {
+    const getAllProperties = async (orgId: string) => {
       try {
-        const { data } = await fetchProperties();
+        const { data } = await fetchProperties(orgId);
         setProperties(data);
         setActiveProperty(data[0]);
       } catch (error) {
+        alert(`Error: ${error}`); // Show browser alert
         console.error("Error fetching properties:", error);
       }
     };
 
-    getAllProperties();
+    authData?.orgId && getAllProperties(authData.orgId);
   }, [setActiveProperty, setProperties]); // Ensure fetchProperties is stable
 
   return (
